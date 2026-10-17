@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   MotorMind design tokens
+   Accent derived from MotorMind's existing brand red (#c20e1b,
+   hover #ae0c18 in the original motormind.in theme stylesheet).
+   Change the theme here — components only reference tokens.
+   ────────────────────────────────────────────────────────────── */
+@theme {
+  --color-ink-950: #07080a;
+  --color-ink-900: #0b0c0f;
+  --color-ink-850: #101115;
+  --color-ink-800: #15171b;
+  --color-ink-700: #1d2025;
+  --color-ink-600: #272a31;
+  --color-ink-500: #343842;
+
+  --color-fg: #f2f1ee;
+  --color-fg-muted: #a3a6ad;
+  --color-fg-subtle: #6d717a;
+
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.16);
+
+  --color-accent: #d7141f;
+  --color-accent-strong: #c20e1b;
+  --color-accent-deep: #8e0a14;
+  --color-accent-soft: rgb(215 20 31 / 0.14);
+
+  --color-metal: #c9ccd1;
+  --color-success: #3ccf8e;
+  --color-warning: #f2b544;
+
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Saira Condensed", "Geist", ui-sans-serif, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-fade-up: fade-up 0.7s var(--ease-out-expo) both;
+  --animate-sweep: sweep 3.2s var(--ease-in-out-quart) infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes sweep {
+    0% { transform: translateX(-120%); }
+    60%, 100% { transform: translateX(220%); }
+  }
+}
+
+@keyframes overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes kit-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes wheel-in {
+  from { opacity: 0; rotate: -140deg; }
+  to { opacity: 1; rotate: 0deg; }
+}
+@keyframes sheen {
+  from { transform: translateX(-60%) skewX(-18deg); opacity: 0; }
+  15% { opacity: 1; }
+  to { transform: translateX(160%) skewX(-18deg); opacity: 0; }
+}
+@keyframes ping-ring {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  80%, 100% { transform: scale(2.1); opacity: 0; }
+}
+@keyframes spin-slow { to { rotate: 360deg; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bar-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-ink-950);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-ink-950);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--color-accent); color: white; }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  img { max-width: 100%; }
+}
+
+@layer components {
+  /* Condensed technical display face for vehicle names, prices, specs */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    line-height: 0.92;
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Hairline panel used across the garage UI */
+  .panel {
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.028), rgb(255 255 255 / 0.012));
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+  }
+
+  /* Subtle brushed-metal text for hero numerals */
+  .metal-text {
+    background: linear-gradient(180deg, #ffffff 0%, #c9ccd1 48%, #7b7f87 52%, #e7e8ea 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Thin horizontal scrollbar for tab rails */
+  .rail {
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-ink-500) transparent;
+  }
+
+  /* Huge outlined display type used behind the car */
+  .outline-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.07);
+    line-height: 0.8;
+    letter-spacing: -0.01em;
+    user-select: none;
+  }
+
+  /* Technical tick ruler used in hero + garage */
+  .ticks {
+    background-image: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.18) 0 1px, transparent 1px 12px);
+    height: 6px;
+  }
+
+  .container-size { container-type: size; }
+  .container-inline { container-type: inline-size; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
